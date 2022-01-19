@@ -16,8 +16,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <pthread.h>
-# include <time.h>
+# include <sys/time.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct	s_parsed_args
 {

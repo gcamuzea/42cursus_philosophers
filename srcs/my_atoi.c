@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <limits.h>
-#include <ctype.h>
+#include "../includes/philosophers.h"
 
 int	is_number(int c)
 {
