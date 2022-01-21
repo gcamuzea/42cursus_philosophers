@@ -6,11 +6,11 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:59:41 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/19 13:59:59 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/21 17:28:04 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "philosophers.h"
 
 int	is_number(int c)
 {

@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/19 13:47:00 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/21 18:20:17 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,17 @@ typedef struct s_parsed_args
 	int					time_to_sleep;
 	int					number_of_meals;
 	int					i;
+	struct timeval		start_time;
+	pthread_mutex_t		write_mutex;
 }						t_parsed_args;
 
 typedef struct s_philos_data
 {
-	// fork
+	int						philo_n;
 	pthread_mutex_t 		fork;
-	// philo voisin
 	struct s_philos_data	*neighbour;
-	// args
 	t_parsed_args			*timers;
-	// ded?
-	int						is_dead;
+	struct timeval			last_meal_time;
 }							t_philos_data;
 
 enum	e_pstate
@@ -49,6 +48,13 @@ enum	e_pstate
 							SLEEPING
 };
 
-int				atoi_w_return(char *str, int *nb_ptr);
+t_parsed_args				*check_args(int ac, char **av);
+int							second_arg_check(t_parsed_args *args);
+t_philos_data				**malloc_philos_d(int number_of_philos);
+t_philos_data				**setup_philos_d(t_parsed_args *args);
+
+int							atoi_w_return(char *str, int *nb_ptr);
+
+void						*philo_thread(void *ptr);
 
 #endif
