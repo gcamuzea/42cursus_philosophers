@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/21 18:20:17 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/22 18:08:43 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philos_data
 {
 	int						philo_n;
 	pthread_mutex_t 		fork;
-	struct s_philos_data	*neighbour;
+	struct s_philos_data	**philos;
 	t_parsed_args			*timers;
 	struct timeval			last_meal_time;
 }							t_philos_data;
@@ -56,5 +56,7 @@ t_philos_data				**setup_philos_d(t_parsed_args *args);
 int							atoi_w_return(char *str, int *nb_ptr);
 
 void						*philo_thread(void *ptr);
+
+void						ft_puts(const char *str);
 
 #endif

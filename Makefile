@@ -6,13 +6,13 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/01/22 16:40:28 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/01/22 17:54:16 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 EXEC_NAME		=	philo
-CC				=	clang -Wall -Wextra -Werror
+CC				=	clang -Wall -Wextra -Werror -Ofast
 RM				=	rm -f
 
 SRCS_PATH		=	./srcs/

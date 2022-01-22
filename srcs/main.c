@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/21 18:12:19 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/22 17:54:56 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	return_init_failure(const char *error_msg, t_parsed_args *args)
 {
 	if (args)
 		free(args);
-	printf("%s\n", error_msg);
+	ft_puts(error_msg);
 	return (0);
 }
 
@@ -46,6 +46,22 @@ void	free_philos(pthread_t **philos, t_philos_data **philos_d, int philos_count)
 	}
 }
 
+size_t	ft_strlen(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (*str++)
+		len++;
+	return (len);
+}
+
+void	ft_puts(const char *str)
+{
+	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);	
+}
+
 int main(int ac, char **av)
 {
 	t_parsed_args	*args;
@@ -72,5 +88,4 @@ int main(int ac, char **av)
 		pthread_join(*philos_t[args->i], 0);
 	free_philos(philos_t, philos_d, args->number_of_philos);
 	free(args);
-	printf("alles ok :)\n");
 }
