@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:27:21 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/21 18:33:46 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/22 18:21:40 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,11 @@ t_philos_data	**setup_philos_d(t_parsed_args *args)
 		(*(philos_d + i))->philo_n = i + 1;
 		pthread_mutex_init(&(*(philos_d + i))->fork, 0);
 		(*(philos_d + i))->timers = args;
-		if (i == args->number_of_philos - 1)
-			(*(philos_d + i))->neighbour = *(philos_d);
-		else
-			(*(philos_d + i))->neighbour = *(philos_d + i);
+		gettimeofday(&(*(philos_d + i))->last_meal_time, 0);
+		printf("setting up philo %d, gtod is %ld\n", i, (*(philos_d + i))->last_meal_time.tv_usec);
 	}
+	i = -1;
+	while (++i < args->number_of_philos)
+		(*(philos_d + i))->philos = philos_d;
 	return (philos_d);
 }
