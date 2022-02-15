@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:27:21 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:10:44 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:44:12 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ t_pdata	**setup_philos_d(t_data *args)
 	{
 		(*(philos_d + i))->philo_n = i + 1;
 		pthread_mutex_init(&philos_d[i]->fork, 0);
+		pthread_mutex_init(&philos_d[i]->lml_mutex, 0);
 		(*(philos_d + i))->timers = args;
 		gettimeofday(&(*(philos_d + i))->last_meal_time, 0);
 		philos_d[i]->meals_eaten = 0;

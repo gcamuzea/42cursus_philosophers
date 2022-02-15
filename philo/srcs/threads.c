@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:10:55 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:08:08 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ void	philo_output(int mode, t_pdata *philo)
 void	eating(t_pdata *philo_d)
 {
 	pthread_mutex_lock(&philo_d->fork);
-	philo_output(0, philo_d);
+	// philo_output(0, philo_d);
 	pthread_mutex_lock(philo_d->right_fork);
 	philo_output(1, philo_d);
 	philo_d->meals_eaten++;
 	usleep(philo_d->timers->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo_d->fork);
 	pthread_mutex_unlock(philo_d->right_fork);
+	// pthread_mutex_lock(&philo_d->lml_mutex);
+	gettimeofday(&philo_d->last_meal_time, 0);
+	// pthread_mutex_unlock(&philo_d->lml_mutex);
 }
 
 void	*philo_thread(void *ptr)
@@ -57,9 +60,7 @@ void	*philo_thread(void *ptr)
 	double			elapsed_time;
 
 	philo_d = ptr;
-	// usleep(100000);
-	elapsed_time = (double)(tv.tv_usec - philo_d->timers->start_time.tv_usec) / 1000;
-	// printf("Philo %d succesfully created after %fms!\n", philo_d->philo_n, elapsed_time);
+	gettimeofday(&tv, 0);
 	while (1)
 	{
 		//1-eat
@@ -67,6 +68,11 @@ void	*philo_thread(void *ptr)
 		philo_output(2, philo_d);
 		usleep(philo_d->timers->time_to_sleep * 1000);
 		philo_output(3, philo_d);
+		if (tv.tv_sec != philo_d->last_meal_time.tv_sec)
+			elapsed_time = (1000000 - philo_d->last_meal_time.tv_usec) + tv.tv_usec;
+		else
+			elapsed_time = tv.tv_usec - philo_d->last_meal_time.tv_usec;
+		printf("time elapsed since creation = %f\n", elapsed_time / 1000);
 		return 0;
 	}
 	return (0);

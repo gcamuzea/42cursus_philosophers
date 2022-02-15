@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:08:16 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:43:43 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_philos_data
 	int						philo_n;
 	pthread_mutex_t			fork;
 	pthread_mutex_t			*right_fork;
+	pthread_mutex_t			lml_mutex;
 	t_data					*timers;
 	struct timeval			last_meal_time;
 	int						meals_eaten;

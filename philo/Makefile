@@ -6,13 +6,13 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/14 15:57:01 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/14 17:04:51 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 EXEC_NAME		=	philo
-CC				=	clang -Wall -Wextra -Werror -Ofast
+CC				=	clang -Wall -Wextra -Werror
 RM				=	rm -f
 
 SRCS_PATH		=	./srcs/
@@ -25,12 +25,12 @@ SRC_FILES		=	${SRCS_PATH}main.c \
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 
 %.o: %.c
-				$(CC) -Iincludes -c $< -o $@
+				$(CC) -g -Iincludes -c $< -o $@
 
 all:			$(EXEC_NAME)
 
 $(EXEC_NAME):	$(SRC_OFILES)
-				$(CC) $(SRC_OFILES) -Iincludes -lpthread -o $(EXEC_NAME)
+				$(CC) -g $(SRC_OFILES) -Iincludes -lpthread -o $(EXEC_NAME)
 							
 clean:
 				$(RM) $(SRC_OFILES)

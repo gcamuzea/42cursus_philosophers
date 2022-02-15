@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 15:37:47 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:44:22 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int ac, char **av)
 {
 	t_data			*args;
 	pthread_t		**philos_t;
-	t_pdata	**philos_d;
+	t_pdata			**philos_d;
 
 	args = check_args(ac, av);
 	if (!args || !second_arg_check(args))
