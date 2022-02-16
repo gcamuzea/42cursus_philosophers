@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:43:43 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/16 22:41:03 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 
 enum	e_pstate
 {
+	HUNGRY,
 	EATING,
+	SLEEPING,
 	THINKING,
-	SLEEPING
+	DEAD
 };
 
 typedef struct s_args
@@ -49,12 +51,13 @@ typedef struct s_philos_data
 	t_data					*timers;
 	struct timeval			last_meal_time;
 	int						meals_eaten;
+	int						state;
 }							t_pdata;
 
 typedef struct s_monitoring
 {
-	pthread_mutex_t		death_mutex;
-	int					dead;
+	pthread_mutex_t			death_mutex;
+	int						dead;
 }	t_monitoring;
 
 // Setup
@@ -65,7 +68,11 @@ t_pdata						**setup_philos_d(t_data *args);
 
 int							atoi_w_return(char *str, int *nb_ptr);
 
+int							get_time_ms(struct timeval tv1, struct timeval tv2);
+void						philo_output(int mode, t_pdata *philo);
 void						*philo_thread(void *ptr);
+
+int							monitoring(t_pdata **philos, t_data *data);
 
 void						ft_puts(const char *str);
 

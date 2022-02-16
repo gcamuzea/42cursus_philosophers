@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:44:22 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/16 22:43:59 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ void	free_philos(pthread_t **philos, t_pdata **philos_d, int philos_nb)
 int	return_and_free(const char *error_msg, t_data *args,
 	pthread_t **philos_t, t_pdata **philos_d)
 {
-	free_philos(philos_t, philos_d, args->number_of_philos);
 	if (args)
+	{
+		free_philos(philos_t, philos_d, args->number_of_philos);
 		free(args);
+	}
 	ft_puts(error_msg);
 	return (0);
 }
@@ -85,8 +87,11 @@ int	main(int ac, char **av)
 	gettimeofday(&args->start_time, 0);
 	args->i = -1;
 	while (++args->i < args->number_of_philos)
+	{
 		pthread_create(philos_t[args->i], 0, philo_thread, philos_d[args->i]);
-	usleep(100);
+		usleep(10);
+	}
+	monitoring(philos_d, args);
 	args->i = -1;
 	while (++args->i < args->number_of_philos)
 		pthread_join(*philos_t[args->i], 0);

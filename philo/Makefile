@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/14 17:04:51 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/16 22:33:33 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS_PATH		=	./srcs/
 SRC_FILES		=	${SRCS_PATH}main.c \
 					${SRCS_PATH}my_atoi.c\
 					${SRCS_PATH}setup.c \
-					${SRCS_PATH}threads.c
+					${SRCS_PATH}threads.c \
+					${SRCS_PATH}monitoring.c
 					
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 
