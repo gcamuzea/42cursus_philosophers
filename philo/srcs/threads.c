@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 05:14:58 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 05:32:36 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_time_ms(struct timeval tv1, struct timeval tv2)
 	return ((tv2.tv_usec - tv1.tv_usec) / 1000);
 }
 
-static int	check_for_dead(t_data *data)
+static int	is_done(t_data *data)
 {
 	pthread_mutex_lock(&data->done_mutex);
 	if (data->done)
@@ -32,12 +32,8 @@ static int	check_for_dead(t_data *data)
 	return (0);
 }
 
-// Modes :
-// 0 to take a fork
-// 1 to eat
-// 2 to sleep
-// 3 to think
-// 4 to die
+// Modes : 0 to take a fork, 1 to eat, 2 to sleep,
+// 3 to think, 4 to die
 void	philo_output(int mode, t_pdata *philo)
 {
 	pthread_mutex_t	*mutex;
@@ -103,7 +99,7 @@ void	*philo_thread(void *ptr)
 	else
 		usleep(100);
 	while (philo_d->timers->number_of_philos > 1
-		&& !check_for_dead(philo_d->timers))
+		&& !is_done(philo_d->timers))
 	{
 		eating(philo_d);
 		philo_output(2, philo_d);
