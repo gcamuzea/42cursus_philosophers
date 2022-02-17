@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:27:21 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 02:35:12 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	second_arg_check(t_data *args)
 		return (0);
 	}
 	pthread_mutex_init(&args->write_mutex, 0);
-	pthread_mutex_init(&args->death_mutex, 0);
-	args->dead = 0;
+	pthread_mutex_init(&args->done_mutex, 0);
+	args->done = 0;
 	return (1);
 }
 

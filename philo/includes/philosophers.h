@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 03:27:33 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct s_args
 	int					i;
 	struct timeval		start_time;
 	pthread_mutex_t		write_mutex;
-	pthread_mutex_t		death_mutex;
-	int					dead;
+	pthread_mutex_t		done_mutex;
+	int					done;
 }						t_data;
 
 typedef struct s_philos_data

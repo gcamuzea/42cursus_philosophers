@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:31:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 03:23:39 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	set_stop_flag(t_data *data)
 {
-	pthread_mutex_lock(&data->death_mutex);
-	data->dead = 1;
-	pthread_mutex_unlock(&data->death_mutex);
+	pthread_mutex_lock(&data->done_mutex);
+	data->done = 1;
+	pthread_mutex_unlock(&data->done_mutex);
 }
 
 static int	check_death_timer(t_pdata *philo, t_data *data,
 	struct timeval tv)
 {
 	pthread_mutex_lock(&philo->lml_mutex);
-	if (get_time_ms(philo->last_meal_time, tv) >= data->time_to_die)
+	if (get_time_ms(philo->last_meal_time, tv) > data->time_to_die)
 	{
 		philo_output(4, philo);
 		set_stop_flag(data);
@@ -46,9 +46,9 @@ void	monitoring(t_pdata **philos, t_data *data)
 	{
 		i = -1;
 		full_meals_c = 0;
-		gettimeofday(&tv, 0);
 		while (f && ++i < data->number_of_philos)
 		{
+			gettimeofday(&tv, 0);
 			f = check_death_timer(philos[i], data, tv);
 			pthread_mutex_lock(&philos[i]->meals_mutex);
 			if (philos[i]->meals_eaten >= data->number_of_meals)

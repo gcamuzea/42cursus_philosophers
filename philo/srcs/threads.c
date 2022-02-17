@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 03:25:18 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	get_time_ms(struct timeval tv1, struct timeval tv2)
 
 static int	check_for_dead(t_data *data)
 {
-	pthread_mutex_lock(&data->death_mutex);
-	if (data->dead)
+	pthread_mutex_lock(&data->done_mutex);
+	if (data->done)
 	{
-		pthread_mutex_unlock(&data->death_mutex);
+		pthread_mutex_unlock(&data->done_mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&data->death_mutex);
+	pthread_mutex_unlock(&data->done_mutex);
 	return (0);
 }
 
@@ -44,8 +44,8 @@ void	philo_output(int mode, t_pdata *philo)
 	struct timeval	tv;
 	int				time_in_ms;
 
-	pthread_mutex_lock(&philo->timers->death_mutex);
-	if (!philo->timers->dead)
+	pthread_mutex_lock(&philo->timers->done_mutex);
+	if (!philo->timers->done)
 	{
 		mutex = &philo->timers->write_mutex;
 		pthread_mutex_lock(mutex);
@@ -64,7 +64,7 @@ void	philo_output(int mode, t_pdata *philo)
 			printf("is dead\n");
 		pthread_mutex_unlock(mutex);
 	}
-	pthread_mutex_unlock(&philo->timers->death_mutex);
+	pthread_mutex_unlock(&philo->timers->done_mutex);
 }
 
 static void	eating(t_pdata *philo_d)
@@ -79,15 +79,15 @@ static void	eating(t_pdata *philo_d)
 		pthread_mutex_lock(&philo_d->fork);
 	philo_output(0, philo_d);
 	philo_output(1, philo_d);
-	usleep(philo_d->timers->time_to_eat * 1000);
-	pthread_mutex_unlock(&philo_d->fork);
-	pthread_mutex_unlock(philo_d->right_fork);
 	pthread_mutex_lock(&philo_d->lml_mutex);
 	gettimeofday(&philo_d->last_meal_time, 0);
 	pthread_mutex_unlock(&philo_d->lml_mutex);
 	pthread_mutex_lock(&philo_d->meals_mutex);
 	philo_d->meals_eaten++;
 	pthread_mutex_unlock(&philo_d->meals_mutex);
+	usleep(philo_d->timers->time_to_eat * 1000);
+	pthread_mutex_unlock(&philo_d->fork);
+	pthread_mutex_unlock(philo_d->right_fork);
 }
 
 void	*philo_thread(void *ptr)
