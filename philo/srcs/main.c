@@ -6,13 +6,13 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/16 22:43:59 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 03:23:57 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	free_philos(pthread_t **philos, t_pdata **philos_d, int philos_nb)
+static void	free_philos(pthread_t **philos, t_pdata **philos_d, int philos_nb)
 {
 	int	i;
 
@@ -38,19 +38,7 @@ void	free_philos(pthread_t **philos, t_pdata **philos_d, int philos_nb)
 	}
 }
 
-int	return_and_free(const char *error_msg, t_data *args,
-	pthread_t **philos_t, t_pdata **philos_d)
-{
-	if (args)
-	{
-		free_philos(philos_t, philos_d, args->number_of_philos);
-		free(args);
-	}
-	ft_puts(error_msg);
-	return (0);
-}
-
-size_t	ft_strlen(const char *str)
+static size_t	ft_strlen(const char *str)
 {
 	size_t	len;
 
@@ -60,10 +48,35 @@ size_t	ft_strlen(const char *str)
 	return (len);
 }
 
-void	ft_puts(const char *str)
+static int	return_and_free(const char *error_msg, t_data *args,
+	pthread_t **philos_t, t_pdata **philos_d)
 {
-	write(1, str, ft_strlen(str));
-	write(1, "\n", 1);
+	if (args)
+	{
+		free_philos(philos_t, philos_d, args->number_of_philos);
+		free(args);
+	}
+	if (error_msg)
+	{
+		write(1, error_msg, ft_strlen(error_msg));
+		write(1, "\n", 1);
+	}
+	return (0);
+}
+
+static void	run_simulation(t_pdata **philos, pthread_t **threads, t_data *args)
+{
+	gettimeofday(&args->start_time, 0);
+	args->i = -1;
+	while (++args->i < args->number_of_philos)
+	{
+		pthread_create(threads[args->i], 0, philo_thread, philos[args->i]);
+		usleep(100);
+	}
+	monitoring(philos, args);
+	args->i = -1;
+	while (++args->i < args->number_of_philos)
+		pthread_join(*threads[args->i], 0);
 }
 
 int	main(int ac, char **av)
@@ -84,16 +97,6 @@ int	main(int ac, char **av)
 	philos_d = setup_philos_d(args);
 	if (!philos_d)
 		return (return_and_free("Error whith malloc !", args, philos_t, 0));
-	gettimeofday(&args->start_time, 0);
-	args->i = -1;
-	while (++args->i < args->number_of_philos)
-	{
-		pthread_create(philos_t[args->i], 0, philo_thread, philos_d[args->i]);
-		usleep(10);
-	}
-	monitoring(philos_d, args);
-	args->i = -1;
-	while (++args->i < args->number_of_philos)
-		pthread_join(*philos_t[args->i], 0);
-	return (return_and_free("end", args, philos_t, philos_d));
+	run_simulation(philos_d, philos_t, args);
+	return (return_and_free(0, args, philos_t, philos_d));
 }

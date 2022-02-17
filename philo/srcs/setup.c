@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:27:21 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/14 16:44:12 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 02:35:12 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_data	*check_args(int ac, char **av)
 	args = malloc(sizeof(t_data));
 	if (!args)
 		return (0);
-	args->number_of_meals = 0;
+	args->number_of_meals = INT_MAX;
 	if (!atoi_w_return(av[1], &args->number_of_philos)
 		|| !atoi_w_return(av[2], &args->time_to_die)
 		|| !atoi_w_return(av[3], &args->time_to_eat)
@@ -43,17 +43,19 @@ t_data	*check_args(int ac, char **av)
 
 int	second_arg_check(t_data *args)
 {
-	if (args->number_of_meals < 0 || args->number_of_philos < 0
-		|| args->time_to_die < 0 || args->time_to_eat < 0
-		|| args->time_to_sleep < 0)
+	if (args->number_of_meals < 0 || args->number_of_philos <= 0
+		|| args->time_to_die <= 0 || args->time_to_eat <= 0
+		|| args->time_to_sleep <= 0)
 	{
 		return (0);
 	}
 	pthread_mutex_init(&args->write_mutex, 0);
+	pthread_mutex_init(&args->death_mutex, 0);
+	args->dead = 0;
 	return (1);
 }
 
-t_pdata	**malloc_philos_d(int number_of_philos)
+static t_pdata	**malloc_philos_d(int number_of_philos)
 {
 	t_pdata	**philos_d;
 	int		i;
@@ -77,6 +79,17 @@ t_pdata	**malloc_philos_d(int number_of_philos)
 	return (philos_d);
 }
 
+static void	initialize_philo(t_pdata *philo, t_data *args, int philo_n)
+{
+	philo->philo_n = philo_n;
+	pthread_mutex_init(&philo->fork, 0);
+	pthread_mutex_init(&philo->lml_mutex, 0);
+	pthread_mutex_init(&philo->meals_mutex, 0);
+	philo->timers = args;
+	gettimeofday(&philo->last_meal_time, 0);
+	philo->meals_eaten = 0;
+}
+
 t_pdata	**setup_philos_d(t_data *args)
 {
 	t_pdata	**philos_d;
@@ -87,15 +100,7 @@ t_pdata	**setup_philos_d(t_data *args)
 		return (0);
 	i = -1;
 	while (++i < args->number_of_philos)
-	{
-		(*(philos_d + i))->philo_n = i + 1;
-		pthread_mutex_init(&philos_d[i]->fork, 0);
-		pthread_mutex_init(&philos_d[i]->lml_mutex, 0);
-		(*(philos_d + i))->timers = args;
-		gettimeofday(&(*(philos_d + i))->last_meal_time, 0);
-		philos_d[i]->meals_eaten = 0;
-		// printf("setting up philo %d, gtod is %ld\n", i, (*(philos_d + i))->last_meal_time.tv_usec);
-	}
+		initialize_philo(philos_d[i], args, i + 1);
 	i = -1;
 	while (++i < args->number_of_philos)
 	{

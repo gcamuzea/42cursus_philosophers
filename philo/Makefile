@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/16 22:33:33 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/17 02:56:26 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,12 @@ SRC_FILES		=	${SRCS_PATH}main.c \
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 
 %.o: %.c
-				$(CC) -g -Iincludes -c $< -o $@
+				$(CC) -Iincludes -c $< -o $@
 
 all:			$(EXEC_NAME)
 
 $(EXEC_NAME):	$(SRC_OFILES)
-				$(CC) -g $(SRC_OFILES) -Iincludes -lpthread -o $(EXEC_NAME)
+				$(CC) $(SRC_OFILES) -Iincludes -lpthread -o $(EXEC_NAME)
 							
 clean:
 				$(RM) $(SRC_OFILES)
