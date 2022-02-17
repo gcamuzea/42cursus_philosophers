@@ -1,3 +1,2 @@
-srcs/*.o
+*.o
 philo
-a.out
