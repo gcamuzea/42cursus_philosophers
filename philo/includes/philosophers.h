@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 05:22:31 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_args
 	pthread_mutex_t		write_mutex;
 	pthread_mutex_t		done_mutex;
 	int					done;
+	pthread_mutex_t		meals_mutex;
+	int					nb_of_full_meals;
 }						t_data;
 
 typedef struct s_philos_data
@@ -40,7 +42,6 @@ typedef struct s_philos_data
 	pthread_mutex_t		fork;
 	pthread_mutex_t		*right_fork;
 	pthread_mutex_t		lml_mutex;
-	pthread_mutex_t		meals_mutex;
 	t_data				*timers;
 	struct timeval		last_meal_time;
 	int					meals_eaten;
@@ -56,7 +57,7 @@ int						atoi_w_return(char *str, int *nb_ptr);
 int						get_time_ms(struct timeval tv1, struct timeval tv2);
 void					philo_output(int mode, t_pdata *philo);
 void					*philo_thread(void *ptr);
-// Monitoring
-void					monitoring(t_pdata **philos, t_data *data);
+// supervisor
+void					supervisor(t_pdata **philos, t_data *data);
 
 #endif

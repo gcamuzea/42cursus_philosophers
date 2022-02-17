@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:27:21 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 05:15:37 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	second_arg_check(t_data *args)
 	}
 	pthread_mutex_init(&args->write_mutex, 0);
 	pthread_mutex_init(&args->done_mutex, 0);
+	pthread_mutex_init(&args->meals_mutex, 0);
+	args->nb_of_full_meals = 0;
 	args->done = 0;
 	return (1);
 }
@@ -84,7 +86,6 @@ static void	initialize_philo(t_pdata *philo, t_data *args, int philo_n)
 	philo->philo_n = philo_n;
 	pthread_mutex_init(&philo->fork, 0);
 	pthread_mutex_init(&philo->lml_mutex, 0);
-	pthread_mutex_init(&philo->meals_mutex, 0);
 	philo->timers = args;
 	gettimeofday(&philo->last_meal_time, 0);
 	philo->meals_eaten = 0;

@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 04:14:21 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/17 05:14:58 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,12 @@ static void	eating(t_pdata *philo_d)
 	pthread_mutex_lock(&philo_d->lml_mutex);
 	gettimeofday(&philo_d->last_meal_time, 0);
 	pthread_mutex_unlock(&philo_d->lml_mutex);
-	pthread_mutex_lock(&philo_d->meals_mutex);
-	philo_d->meals_eaten++;
-	pthread_mutex_unlock(&philo_d->meals_mutex);
+	if (++philo_d->meals_eaten == philo_d->timers->number_of_meals)
+	{
+		pthread_mutex_lock(&philo_d->timers->meals_mutex);
+		philo_d->timers->nb_of_full_meals++;
+		pthread_mutex_unlock(&philo_d->timers->meals_mutex);
+	}
 	usleep(philo_d->timers->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo_d->fork);
 	pthread_mutex_unlock(philo_d->right_fork);
@@ -96,9 +99,9 @@ void	*philo_thread(void *ptr)
 
 	philo_d = ptr;
 	if ((philo_d->philo_n + 1) % 2)
-		usleep(800);
+		usleep(400);
 	else
-		usleep(200);
+		usleep(100);
 	while (philo_d->timers->number_of_philos > 1
 		&& !check_for_dead(philo_d->timers))
 	{
@@ -106,6 +109,8 @@ void	*philo_thread(void *ptr)
 		philo_output(2, philo_d);
 		usleep(philo_d->timers->time_to_sleep * 1000);
 		philo_output(3, philo_d);
+		if (philo_d->timers->number_of_philos % 2)
+			usleep(100);
 	}
 	return (0);
 }
