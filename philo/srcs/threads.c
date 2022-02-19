@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 05:32:36 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/19 19:31:32 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void	eating(t_pdata *philo_d)
 		pthread_mutex_lock(&philo_d->fork);
 	else
 		pthread_mutex_lock(philo_d->right_fork);
+	philo_output(0, philo_d);
 	if (philo_d->philo_n % 2)
 		pthread_mutex_lock(philo_d->right_fork);
 	else
@@ -95,9 +96,9 @@ void	*philo_thread(void *ptr)
 
 	philo_d = ptr;
 	if ((philo_d->philo_n + 1) % 2)
-		usleep(400);
+		usleep(philo_d->philo_n * 5 + 200);
 	else
-		usleep(100);
+		usleep(philo_d->philo_n * 5);
 	while (philo_d->timers->number_of_philos > 1
 		&& !is_done(philo_d->timers))
 	{
@@ -106,6 +107,8 @@ void	*philo_thread(void *ptr)
 		usleep(philo_d->timers->time_to_sleep * 1000);
 		philo_output(3, philo_d);
 		if (philo_d->timers->number_of_philos % 2)
+			usleep(50);
+		else
 			usleep(100);
 	}
 	return (0);
