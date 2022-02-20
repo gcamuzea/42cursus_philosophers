@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:31:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 20:04:20 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 21:05:47 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	supervisor(t_pdata **philos, t_data *data)
 		{
 			gettimeofday(&tv, 0);
 			f = check_death_timer(philos[i], data, tv);
+			if (!f)
+				return ;
 			pthread_mutex_lock(&data->meals_mutex);
 			if (data->nb_of_full_meals == data->number_of_philos)
 			{
@@ -56,6 +58,7 @@ void	supervisor(t_pdata **philos, t_data *data)
 			}
 			pthread_mutex_unlock(&data->meals_mutex);
 		}
-		usleep(1000);
+		if (f)
+			usleep(500);
 	}
 }

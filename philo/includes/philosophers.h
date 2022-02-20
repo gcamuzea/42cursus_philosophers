@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 17:15:47 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:49:44 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ t_data					*check_args(int ac, char **av);
 int						second_arg_check(t_data *args);
 t_pdata					**setup_philos_d(t_data *args);
 // utils
+void					schlafmutze(long int t_us, t_data *data);
 int						atoi_w_return(char *str, int *nb_ptr);
-void					schlafmutze(long int n_ms);
-void					ft_usleep(long int time_ms);
+size_t					ft_strlen(const char *str);
 // Threads
+int						is_done(t_data *data);
 int						get_time_ms(struct timeval tv1, struct timeval tv2);
 void					philo_output(int mode, t_pdata *philo);
 void					*philo_thread(void *ptr);

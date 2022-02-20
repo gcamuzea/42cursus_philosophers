@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 19:56:12 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:20:28 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,6 @@ static void	free_philos(pthread_t **philos, t_pdata **philos_d, int philos_nb)
 		}
 		free(philos_d);
 	}
-}
-
-static size_t	ft_strlen(const char *str)
-{
-	size_t	len;
-
-	len = 0;
-	while (*str++)
-		len++;
-	return (len);
 }
 
 static int	return_and_free(const char *error_msg, t_data *args,
@@ -94,6 +84,7 @@ int	main(int ac, char **av)
 	philos_d = setup_philos_d(args);
 	if (!philos_d)
 		return (return_and_free("Error whith malloc !", args, philos_t, 0));
-	run_simulation(philos_d, philos_t, args);
+	if (args->number_of_meals)
+		run_simulation(philos_d, philos_t, args);
 	return (return_and_free(0, args, philos_t, philos_d));
 }
