@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:12:14 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 05:22:31 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:15:47 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ typedef struct s_philos_data
 t_data					*check_args(int ac, char **av);
 int						second_arg_check(t_data *args);
 t_pdata					**setup_philos_d(t_data *args);
-// My_atoi
+// utils
 int						atoi_w_return(char *str, int *nb_ptr);
+void					schlafmutze(long int n_ms);
+void					ft_usleep(long int time_ms);
 // Threads
 int						get_time_ms(struct timeval tv1, struct timeval tv2);
 void					philo_output(int mode, t_pdata *philo);

@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/17 05:22:31 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/20 17:11:56 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ RM				=	rm -f
 SRCS_PATH		=	./srcs/
 					
 SRC_FILES		=	${SRCS_PATH}main.c \
-					${SRCS_PATH}my_atoi.c\
+					${SRCS_PATH}utils.c\
 					${SRCS_PATH}setup.c \
 					${SRCS_PATH}threads.c \
 					${SRCS_PATH}supervisor.c

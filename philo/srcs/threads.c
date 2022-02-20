@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/19 19:31:32 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:50:11 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	philo_output(int mode, t_pdata *philo)
 	if (!philo->timers->done)
 	{
 		mutex = &philo->timers->write_mutex;
-		pthread_mutex_lock(mutex);
 		gettimeofday(&tv, 0);
 		time_in_ms = get_time_ms(philo->timers->start_time, tv);
+		pthread_mutex_lock(mutex);
 		printf("%d\tphilo %d ", time_in_ms, philo->philo_n);
 		if (mode == 0)
 			printf("has taken a fork\n");
@@ -63,7 +63,7 @@ void	philo_output(int mode, t_pdata *philo)
 	pthread_mutex_unlock(&philo->timers->done_mutex);
 }
 
-static void	eating(t_pdata *philo_d)
+void	eating(t_pdata *philo_d)
 {
 	if (philo_d->philo_n % 2)
 		pthread_mutex_lock(&philo_d->fork);
@@ -79,37 +79,35 @@ static void	eating(t_pdata *philo_d)
 	pthread_mutex_lock(&philo_d->lml_mutex);
 	gettimeofday(&philo_d->last_meal_time, 0);
 	pthread_mutex_unlock(&philo_d->lml_mutex);
+	usleep(philo_d->timers->time_to_eat * 1000);
+	pthread_mutex_unlock(&philo_d->fork);
+	pthread_mutex_unlock(philo_d->right_fork);
 	if (++philo_d->meals_eaten == philo_d->timers->number_of_meals)
 	{
 		pthread_mutex_lock(&philo_d->timers->meals_mutex);
 		philo_d->timers->nb_of_full_meals++;
 		pthread_mutex_unlock(&philo_d->timers->meals_mutex);
 	}
-	usleep(philo_d->timers->time_to_eat * 1000);
-	pthread_mutex_unlock(&philo_d->fork);
-	pthread_mutex_unlock(philo_d->right_fork);
 }
 
 void	*philo_thread(void *ptr)
 {
 	t_pdata			*philo_d;
+	t_data			*timers;
 
 	philo_d = ptr;
-	if ((philo_d->philo_n + 1) % 2)
-		usleep(philo_d->philo_n * 5 + 200);
-	else
-		usleep(philo_d->philo_n * 5);
-	while (philo_d->timers->number_of_philos > 1
-		&& !is_done(philo_d->timers))
+	timers = philo_d->timers;
+	if (!(philo_d->philo_n % 2))
+		usleep(timers->time_to_eat * 100);
+	while (timers->number_of_philos > 1
+		&& !is_done(timers))
 	{
 		eating(philo_d);
 		philo_output(2, philo_d);
-		usleep(philo_d->timers->time_to_sleep * 1000);
+		usleep(timers->time_to_sleep * 1000);
 		philo_output(3, philo_d);
-		if (philo_d->timers->number_of_philos % 2)
-			usleep(50);
-		else
-			usleep(100);
+		if (timers->number_of_philos % 2)
+			usleep(timers->time_to_eat * 1000);
 	}
 	return (0);
 }

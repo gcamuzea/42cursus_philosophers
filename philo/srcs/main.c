@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:15:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/17 05:22:31 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 19:53:43 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	run_simulation(t_pdata **philos, pthread_t **threads, t_data *args)
 	while (++args->i < args->number_of_philos)
 	{
 		pthread_create(threads[args->i], 0, philo_thread, philos[args->i]);
-		usleep(100);
+		// usleep(100);
 	}
 	supervisor(philos, args);
 	args->i = -1;
