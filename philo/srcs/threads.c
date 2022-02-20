@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 18:11:57 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 19:50:11 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:14:52 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	*philo_thread(void *ptr)
 	timers = philo_d->timers;
 	if (!(philo_d->philo_n % 2))
 		usleep(timers->time_to_eat * 100);
+	if (timers->number_of_philos == 1)
+		philo_output(0, philo_d);
 	while (timers->number_of_philos > 1
 		&& !is_done(timers))
 	{

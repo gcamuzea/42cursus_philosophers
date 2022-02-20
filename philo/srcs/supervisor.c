@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:31:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 19:32:29 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/20 20:04:20 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ void	supervisor(t_pdata **philos, t_data *data)
 			}
 			pthread_mutex_unlock(&data->meals_mutex);
 		}
-		usleep(500);
+		usleep(1000);
 	}
 }
