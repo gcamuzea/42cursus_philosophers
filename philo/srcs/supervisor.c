@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:31:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 21:05:47 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/21 07:06:24 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_death_timer(t_pdata *philo, t_data *data,
 	struct timeval tv)
 {
 	pthread_mutex_lock(&philo->lml_mutex);
-	if (get_time_ms(philo->last_meal_time, tv) > data->time_to_die)
+	if (get_time_ms(philo->last_meal_time, tv) >= data->time_to_die)
 	{
 		philo_output(4, philo);
 		set_stop_flag(data);

@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:59:41 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/20 20:55:14 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/21 07:15:43 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	schlafmutze(long int t_us, t_data *data)
 	{
 		if (is_done(data))
 			return ;
-		usleep(2000);
+		usleep(200);
 		gettimeofday(&tv2, 0);
 	}
 }
